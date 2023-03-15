@@ -1,0 +1,72 @@
+--------------------------------------------------------------------------------------------
+"Basicos"
+cero ::= 0
+digito ::= [1-9]
+digConCero ::= [0-9]
+letra ::= [a-zA-Z]
+signo := '-'
+punto ::= '.'
+coma ::= ','
+igual ::= '='
+saltoLinea ::=  '\n'
+llaveCuadradaAbre  ::= '['
+llaveCuadradaCierra  ::= ']'
+llavesCorcheteAbre ::= '{'
+llavesCorcheteCierra ::= '}'
+parentesisAbre  ::= '('
+parentesisCierra  ::= ')'
+finalExpresion ::= $
+
+----------------------------------------------------------------------------------------------
+"Identificadores" 
+Identificador ::= letra (letra|digConCero)+
+
+----------------------------------------------------------------------------------------------
+"Definicion de tipos"
+tipoFuncion ::=  ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arreglo'
+tipoParametro ::= ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arreglo'
+tipoVar ::=  ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arreglo'
+tipoArreglo ::= 'int' | 'char'
+tipoDatoEnviado ::= Identificador | literal | funcion
+
+------------------------------------------------------------------------------------------------
+"Tipo: int"
+int	::= cero | intPositivo | intNegativo
+intPositivo ::= digConCero+
+intNegativo	::= signo digito+
+
+------------------------------------------------------------------------------------------------
+"Tipo: float"
+float ::= floatCero | floatPositivo | floatNegativo
+floatCero ::= cero punto intPositivo
+floatPositivo ::= intPositivo punto intPositivo
+floatNegativo ::= signo (flotanteCero | flotantePos)
+
+-------------------------------------------------------------------------------------------------
+"Tipo: char"
+char ::= letra ‘{’1,1‘}’ 
+
+-------------------------------------------------------------------------------------------------
+"Tipo: string"
+string ::=  (char | digConCero)+
+
+--------------------------------------------------------------------------------------------------
+"Tipo: booleano"
+bool ::= 'true' | 'false'
+
+--------------------------------------------------------------------------------------------------
+"Tipo: Arreglo"
+arregloPrincipal ::= tipoArreglo llaveCuadradaAbre (elementoArreglo coma?)+ llaveCuadradaCierra
+elementoArreglo	::= (char|int) | arregloInterno
+arregloInterno	::= llaveCuadradaAbre (elementoArreglo coma?)+ llaveCuadradaCierra
+
+---------------------------------------------------------------------------------------------------
+"Tipo: Comentario"
+comentario ::= comentarioLinea | comentarioMultiple
+comentarioLinea ::= '@' string
+comentarioMultiple ::= '/' (string saltoLinea*)+'/'
+
+----------------------------------------------------------------------------------------------------
+"Tipo: Literal"
+literal ::= int|float|string|char|arregloPrincipal
+
