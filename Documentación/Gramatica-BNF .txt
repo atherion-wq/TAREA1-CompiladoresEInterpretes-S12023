@@ -70,3 +70,15 @@ comentarioMultiple ::= '/' (string saltoLinea*)+'/'
 "Tipo: Literal"
 literal ::= int|float|string|char|arregloPrincipal
 
+----------------------------------------------------------------------------------------------------
+"Funciones"
+
+funcion	::= tipoFuncion Identificador parentesisAbre parentesisCierra llavesCorcheteAbre bloqueCod llavesCorcheteCierra
+funcion	::= tipoFuncion Identificador parentesisAbre (parametro coma?)+ parentesisCierra llavesCorcheteAbre bloqueCod llavesCorcheteCierra
+parametro ::= tipoParametro Identificador
+
+invocarFuncion ::= id parentesisAbre parentesisCierra
+invocarFuncion ::= id parentesisAbre (Identificador | literal ) parentesisCierra
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
