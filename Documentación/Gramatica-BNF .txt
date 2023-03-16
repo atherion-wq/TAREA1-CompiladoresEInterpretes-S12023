@@ -154,3 +154,38 @@ condicion ::= bool | expresionRelacion | expresionNegacion
 return	::= 'return' (literal | expresion | Identificador | invocarFuncion) finalExpresion
 
 -----------------------------------------------------------------------------------------------------
+"Expresiones"
+expresion ::= expresionBinaria | expresionUnaria | expresionRelacion | expresionNegacion | expresionConjuntiva
+operando ::= literal | Identificador | invocarFuncion
+------------------------------------------------------------------------------------------------------------------------
+"Expresion: Expresiones Binarias"
+TipoOperadorBinarias ::= int|float
+expresionBinaria ::= operando operadorBinario operando
+operadorBinario	::= '+'|'-'|'/'|'**'|'~'|'^'|'*'
+
+-------------------------------------------------------------------------------------------------------------------------
+"Expresion: Expresiones Unarias"
+TipoOperadorUnarias ::= int|float
+expresionUnaria	::= operando operadorUnarias
+expresionUnaria	::= signo operando
+operadorUnarias	::= '--'|'++'
+
+-----------------------------------------------------------------------------------------------------------------------------
+"Expresion: Expresiones Relacionales"
+TipoOperadorRelaciones ::= int|float|bool
+expresionRelacion ::= operando operadorRelacional operando
+expresionRelacion ::= operando operadorComparacion operando
+operadorRelacional ::= '>'|'<'|'>='|'<='
+operadorComparacion	::= '=='|'!='
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+"Expresion: Expresiones Conjuntiva"
+TipoOperadorConjuntivas ::= arregloPrincipal
+expresionConjuntiva	::= operando operadorConjuntiva operando
+operadorConjuntiva	::= '^'|'#'
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+"Expresion: Negacion"
+TipoOperadorNegacion::= funcion|char | bool
+expresionNegacion ::= operadorNegacion operando 
+operadorNegacion ::= '!'
