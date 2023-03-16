@@ -98,3 +98,47 @@ bloqueControl ::= bloqueCod | break
 break ::= 'break'
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Sentencias"
+sentencia ::= crearVariable finalExpresion 
+sentencia ::= crearAsignarVariable finalExpresion
+sentencia ::= asignarVariable finalExpresion
+sentencia ::= asignarElementoArreglo finalExpresion
+sentencia ::= expresion finalExpresion
+sentencia ::= obtenerDatoArreglo finalExpresion?
+sentencia ::= asignarElementoArreglo finalExpresion?
+sentencia ::= obtenerDatoString finalExpresion?
+sentencia ::= asignarElementoString finalExpresion?
+
+sentencia ::= literal + literal 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Crear Variables"
+crearVariable ::= tipoVariable Identificador
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Crear y asignar variables"
+crearAsignarVariable ::= crearVariable igual ( literal | expresion | Identificador | invocarFuncion | 'null' | arregloPrincipal )
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Sentencias: Asignar variable"
+asignarVariable	::= Identificador igual (literal | expresion | Identificador | invocarFuncion | 'null' | arregloPrincipal)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Sentencia: Escribir en salida"
+salidaEst ::= 'sysPrint' parentesisAbre (Identificador | literal) parentesisCierra finalExpresion
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Sentencia: Recibir en entrada"
+entradaEst ::= 'sysRead' parentesisAbre (int|float) parentesisCierra
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Sentencias de Arreglos"
+obtenerDatoArreglo ::= Identificador llaveCuadradaAbre int llaveCuadradaCierra
+asignarElementoArreglo	::= Identificador llaveCuadradaAbre int llaveCuadradaCierra igual (int | char | arregloInterno)
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Sentencias de string"
+obtenerDatoString ::= Identificador llaveCuadradaAbre int llaveCuadradaCierra
+asignarElementoString ::= Identificador llaveCuadradaAbre int llaveCuadradaCierra igual char
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
