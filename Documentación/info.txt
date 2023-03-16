@@ -1,0 +1,7 @@
+Nombre del curso = Compiladores e Interpretes
+Semestre y año = Semestre 1, 2023
+Estudiantes = Alex Sanchez Cespedes - 2018014778
+Cristopher Zuñiga Jimenez - 2017166646
+Tarea #1
+17/03/2023
+Estatus de entrega = Superior
