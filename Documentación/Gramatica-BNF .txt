@@ -81,4 +81,20 @@ invocarFuncion ::= Identificador parentesisAbre parentesisCierra
 invocarFuncion ::= Identificador parentesisAbre ((Identificador | literal) coma?)+ parentesisCierra
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Programa Principal"
+inicio ::= programa
+programa ::= 'int' 'main' parentesisAbre parentesisCierra llavesCorcheteAbre bloqueCod llavesCorcheteCierra
+programa ::= funcion programa
+programa ::= comentario programa
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Bloques de codigo"
+bloqueCod ::= sentencia | estrucControl | return | comentario
+bloqueCod ::= (sentencia | estrucControl | comentario) bloqueCod
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Bloques de codigo en estructuras de control"
+bloqueControl ::= bloqueCod | break
+break ::= 'break'
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
