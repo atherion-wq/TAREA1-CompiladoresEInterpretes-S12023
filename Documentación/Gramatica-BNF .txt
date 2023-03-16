@@ -1,4 +1,4 @@
---------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
 "Basicos"
 cero ::= 0
 digito ::= [1-9]
@@ -17,68 +17,68 @@ parentesisAbre  ::= '('
 parentesisCierra  ::= ')'
 finalExpresion ::= $
 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
 "Identificadores" 
-Identificador ::= letra (letra|digConCero)+
+Identificador ::= letra (letra|digConCero)*
 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
 "Definicion de tipos"
-tipoFuncion ::=  ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arreglo'
-tipoParametro ::= ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arreglo'
-tipoVar ::=  ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arreglo'
+tipoFuncion ::=  ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arregloPrincipal'
+tipoParametro ::= ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arregloPrincipal'
+tipoVar ::=  ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arregloPrincipal'
 tipoArreglo ::= 'int' | 'char'
-tipoDatoEnviado ::= Identificador | literal | funcion
+tipoDatoEnviado ::= Identificador | literal | invocarFuncion
 
-------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: int"
 int	::= cero | intPositivo | intNegativo
 intPositivo ::= digConCero+
 intNegativo	::= signo digito+
 
-------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: float"
 float ::= floatCero | floatPositivo | floatNegativo
 floatCero ::= cero punto intPositivo
 floatPositivo ::= intPositivo punto intPositivo
-floatNegativo ::= signo (flotanteCero | flotantePos)
+floatNegativo ::= signo (floatCero | floatPositivo)
 
--------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: char"
 char ::= letra ‘{’1,1‘}’ 
 
--------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: string"
 string ::=  (char | digConCero)+
 
---------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: booleano"
-bool ::= 'true' | 'false'
+bool ::= 'true' | 'false' 
 
---------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: Arreglo"
-arregloPrincipal ::= tipoArreglo llaveCuadradaAbre (elementoArreglo coma?)+ llaveCuadradaCierra
+arregloPrincipal ::= tipoArreglo llaveCuadradaAbre (elementoArreglo coma?)* llaveCuadradaCierra
 elementoArreglo	::= (char|int) | arregloInterno
-arregloInterno	::= llaveCuadradaAbre (elementoArreglo coma?)+ llaveCuadradaCierra
+arregloInterno	::= llaveCuadradaAbre (elementoArreglo coma?)* llaveCuadradaCierra
 
----------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: Comentario"
 comentario ::= comentarioLinea | comentarioMultiple
 comentarioLinea ::= '@' string
 comentarioMultiple ::= '/' (string saltoLinea*)+'/'
 
-----------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: Literal"
 literal ::= int|float|string|char|arregloPrincipal
 
-----------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Funciones"
 
 funcion	::= tipoFuncion Identificador parentesisAbre parentesisCierra llavesCorcheteAbre bloqueCod llavesCorcheteCierra
 funcion	::= tipoFuncion Identificador parentesisAbre (parametro coma?)+ parentesisCierra llavesCorcheteAbre bloqueCod llavesCorcheteCierra
 parametro ::= tipoParametro Identificador
 
-invocarFuncion ::= id parentesisAbre parentesisCierra
-invocarFuncion ::= id parentesisAbre (Identificador | literal ) parentesisCierra
+invocarFuncion ::= Identificador parentesisAbre parentesisCierra 
+invocarFuncion ::= Identificador parentesisAbre ((Identificador | literal) coma?)+ parentesisCierra
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
