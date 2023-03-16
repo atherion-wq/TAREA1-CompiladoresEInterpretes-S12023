@@ -142,3 +142,15 @@ obtenerDatoString ::= Identificador llaveCuadradaAbre int llaveCuadradaCierra
 asignarElementoString ::= Identificador llaveCuadradaAbre int llaveCuadradaCierra igual char
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+"Estructuras de Control"
+estrucControl ::= if | elif | else | while | for | whileDo
+if	::= 'if' parentesisAbre condicion parentesisCierra llavesCorcheteAbre bloqueControl llavesCorcheteCierra elif? else?
+elif ::=  if ('elif' parentesisAbre condicion parentesisCierra llavesCorcheteAbre bloqueControl llavesCorcheteCierra)+
+else ::= if 'else' llavesCorcheteAbre bloqueControl llavesCorcheteCierra
+while ::= 'while' parentesisAbre condicion parentesisCierra llavesCorcheteAbre bloqueControl llavesCorcheteCierra
+doWhile  ::= 'do' llavesCorcheteAbre bloqueControl llavesCorcheteCierra 'while' parentesisAbre condicion parentesisCierra
+for ::= 'for' parentesisAbre (crearAsignarVariable | Identificador) coma condicion coma expresionUnaria parentesisCierra llavesCorcheteAbre bloqueControl llavesCorcheteCierra
+condicion ::= bool | expresionRelacion | expresionNegacion
+return	::= 'return' (literal | expresion | Identificador | invocarFuncion) finalExpresion
+
+-----------------------------------------------------------------------------------------------------
