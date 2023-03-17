@@ -186,6 +186,6 @@ operadorConjuntiva	::= '^'|'#'
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 "Expresion: Negacion"
-TipoOperadorNegacion::= funcion|char | bool
+TipoOperadorNegacion::= invocarFuncion|char | bool
 expresionNegacion ::= operadorNegacion operando 
 operadorNegacion ::= '!'
