@@ -4,6 +4,7 @@ cero ::= 0
 digito ::= [1-9]
 digConCero ::= [0-9]
 letra ::= [a-zA-Z]
+caracteresEspeciales ::= [#|"|$|%|&|'|(|)|*|+|,|\|-|.|/|:|;|<|=|>|?|@|\|[|]|^|_|`|\|{|}|~]
 signo := '-'
 punto ::= '.'
 coma ::= ','
@@ -16,6 +17,8 @@ llavesCorcheteCierra ::= '}'
 parentesisAbre  ::= '('
 parentesisCierra  ::= ')'
 finalExpresion ::= $
+aperturaCierreComentario ::= '/'
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 "Identificadores" 
@@ -23,9 +26,9 @@ Identificador ::= letra (letra|digConCero)*
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 "Definicion de tipos"
-tipoFuncion ::=  ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arregloPrincipal'
-tipoParametro ::= ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arregloPrincipal'
-tipoVar ::=  ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arregloPrincipal'
+tipoFuncion ::=  ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arreglo'
+tipoParametro ::= ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arreglo'
+tipoVar ::=  ‘int’ | ‘bool’ | ‘float’ | ‘char’ | ‘string’ | 'arreglo'
 tipoArreglo ::= 'int' | 'char'
 tipoDatoEnviado ::= Identificador | literal | invocarFuncion
 
@@ -48,7 +51,8 @@ char ::= letra ‘{’1,1‘}’
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: string"
-string ::=  (char | digConCero)+
+string ::=  (char | digConCero| caracteresEspeciales)+
+
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: booleano"
@@ -56,7 +60,7 @@ bool ::= 'true' | 'false'
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: Arreglo"
-arregloPrincipal ::= tipoArreglo llaveCuadradaAbre (elementoArreglo coma?)* llaveCuadradaCierra
+arreglo ::= tipoArreglo llaveCuadradaAbre (elementoArreglo coma?)* llaveCuadradaCierra
 elementoArreglo	::= (char|int) | arregloInterno
 arregloInterno	::= llaveCuadradaAbre (elementoArreglo coma?)* llaveCuadradaCierra
 
@@ -64,11 +68,11 @@ arregloInterno	::= llaveCuadradaAbre (elementoArreglo coma?)* llaveCuadradaCierr
 "Tipo: Comentario"
 comentario ::= comentarioLinea | comentarioMultiple
 comentarioLinea ::= '@' string
-comentarioMultiple ::= '/' (string saltoLinea*)+'/'
+comentarioMultiple ::= aperturaCierreComentario (string saltoLinea*)+ aperturaCierreComentario
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Tipo: Literal"
-literal ::= int|float|string|char|arregloPrincipal
+literal ::= int|float|string|char|arreglo
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Funciones"
@@ -103,13 +107,13 @@ sentencia ::= crearVariable finalExpresion
 sentencia ::= crearAsignarVariable finalExpresion
 sentencia ::= asignarVariable finalExpresion
 sentencia ::= asignarElementoArreglo finalExpresion
-sentencia ::= expresion finalExpresion
 sentencia ::= obtenerDatoArreglo finalExpresion?
-sentencia ::= asignarElementoArreglo finalExpresion?
+sentencia ::= asignarElementoArreglo finalExpresion
 sentencia ::= obtenerDatoString finalExpresion?
-sentencia ::= asignarElementoString finalExpresion?
-
+sentencia ::= asignarElementoString finalExpresion
 sentencia ::= literal + literal 
+sentencia ::= entradaEst finalExpresion
+sentencia ::= salidaEst finalExpresion
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Crear Variables"
@@ -117,15 +121,15 @@ crearVariable ::= tipoVariable Identificador
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Crear y asignar variables"
-crearAsignarVariable ::= crearVariable igual ( literal | expresion | Identificador | invocarFuncion | 'null' | arregloPrincipal )
+crearAsignarVariable ::= crearVariable igual ( literal | expresion | Identificador | invocarFuncion | 'null' | arreglo )
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Sentencias: Asignar variable"
-asignarVariable	::= Identificador igual (literal | expresion | Identificador | invocarFuncion | 'null' | arregloPrincipal)
+asignarVariable	::= Identificador igual (literal | expresion | Identificador | invocarFuncion | 'null' | arreglo)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Sentencia: Escribir en salida"
-salidaEst ::= 'sysPrint' parentesisAbre (Identificador | literal) parentesisCierra finalExpresion
+salidaEst ::= 'sysPrint' parentesisAbre (Identificador | literal) parentesisCierra 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 "Sentencia: Recibir en entrada"
@@ -161,6 +165,7 @@ operando ::= literal | Identificador | invocarFuncion
 "Expresion: Expresiones Binarias"
 TipoOperadorBinarias ::= int|float
 expresionBinaria ::= operando operadorBinario operando
+expresionBinariaMultiple ::= parentesisAbre? (expresionBinaria| operando) parentesisCierra? operadorBinario parentesisAbre? (expresionBinaria| operando) parentesisCierra?
 operadorBinario	::= '+'|'-'|'/'|'**'|'~'|'^'|'*'
 
 -------------------------------------------------------------------------------------------------------------------------
@@ -180,8 +185,9 @@ operadorComparacion	::= '=='|'!='
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 "Expresion: Expresiones Conjuntiva"
-TipoOperadorConjuntivas ::= arregloPrincipal
+TipoOperadorConjuntivas ::= arreglo
 expresionConjuntiva	::= operando operadorConjuntiva operando
+expresionConjuntivaMultiple ::= (expresionConjuntiva | operando) operadorConjuntiva (expresionConjuntiva | operando )
 operadorConjuntiva	::= '^'|'#'
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
